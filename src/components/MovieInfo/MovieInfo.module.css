@@ -1,0 +1,44 @@
+.contentWrapper {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background-color: #baf1c2;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.posterImg {
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 600px;
+}
+
+.contentTitle {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: black;
+}
+
+.score,
+.overviewTitle,
+.genresTitle {
+  font-weight: bold;
+  margin-top: 10px;
+  color: #444;
+}
+
+.overviewText,
+.genresText {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+}
