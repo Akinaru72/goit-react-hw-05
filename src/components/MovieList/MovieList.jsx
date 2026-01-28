@@ -9,8 +9,8 @@ export default function MovieList({ movies }) {
     <ul className={css.list}>
       {movies.map(({ id, poster_path, title }) => {
         return (
-          <li key={id} className={css.item}>
-            <Link to={`/movies/${id}`} state={location}>
+          <li key={id}>
+            <Link to={`/movies/${id}`} state={location} className={css.item}>
               <img
                 className={css.image}
                 src={
