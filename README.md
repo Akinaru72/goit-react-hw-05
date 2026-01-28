@@ -27,7 +27,7 @@
 Create an application with routing for searching movies by title.
 
 Watch the demo video of the application.
-https://github.com/user-attachments/assets/edf55070-b718-4552-8e8d-ef36186c0525
+https://github.com/Akinaru72/goit-react-hw-05/issues/1#issue-3836504150
 
 ---
 
