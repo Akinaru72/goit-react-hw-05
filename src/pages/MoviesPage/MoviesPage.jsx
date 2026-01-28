@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useDebounce } from "use-debounce";
 import { fetchMovieSearch } from "../../moviesService";
-import toast from "react-hot-toast";
-import debounce from "lodash.debounce";
 
 import MovieList from "../../components/MovieList/MovieList";
 import Loader from "../../components/Loader/Loader";
@@ -11,58 +10,52 @@ import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
 
 import css from "./MoviesPage.module.css";
 
-const MoviesPage = () => {
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [hasMore, setHasMore] = useState(false);
-  const [page, setPage] = useState(1);
-
+export default function MoviesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") ?? "";
+  const [debounceQuery] = useDebounce(query, 500);
+  const [movies, setMovies] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+
+  const changeSearchtext = (event) => {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.set("query", event.target.value);
+    setSearchParams(nextParams);
+  };
+
+  const onClickLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   useEffect(() => {
-    if (!query.trim()) {
+    if (debounceQuery === "") {
       setMovies([]);
       setPage(1);
       return;
     }
-
-    const fetchMovies = async () => {
+    async function getSearchMovie() {
       try {
         setIsLoading(true);
-        setIsError(false);
-        const data = await fetchMovieSearch(query, page);
+        setError(false);
+        const data = await fetchMovieSearch(debounceQuery, page);
 
         setMovies((prevMovies) =>
-          page === 1 ? data.results : [...prevMovies, ...data.results]
+          page === 1 ? data.results : [...prevMovies, ...data.results],
         );
+
         setHasMore(page < data.total_pages);
+        console.log(data, page);
       } catch (error) {
-        setIsError(true);
-        toast.error("Something went wrong! Try again.");
+        setError(true);
       } finally {
         setIsLoading(false);
       }
-    };
-
-    const debouncedFetch = debounce(fetchMovies, 500);
-    debouncedFetch();
-
-    return () => debouncedFetch.cancel();
-  }, [query, page]);
-
-  const handleSearch = (event) => {
-    const newQuery = event.target.value;
-
-    setSearchParams({ query: newQuery });
-    setPage(1);
-    setMovies([]);
-  };
-
-  const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
+    }
+    getSearchMovie();
+  }, [debounceQuery, page]);
 
   return (
     <div className={css.container}>
@@ -70,19 +63,15 @@ const MoviesPage = () => {
         className={css.field}
         type="text"
         value={query}
-        onChange={handleSearch}
+        onChange={changeSearchtext}
         placeholder="Search movies..."
       />
-
       {isLoading && <Loader />}
-      {isError && <ErrorMessage />}
+      {error && <ErrorMessage />}
       {movies.length > 0 && <MovieList movies={movies} />}
-
-      {movies.length > 0 && hasMore && !isLoading && (
-        <LoadMoreBtn onClick={handleLoadMore} />
+      {hasMore && (
+        <LoadMoreBtn onClick={onClickLoadMore} disabled={isLoading} />
       )}
     </div>
   );
-};
-
-export default MoviesPage;
+}

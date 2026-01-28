@@ -16,8 +16,8 @@ const API_PATH = {
 };
 
 export const fetchMovies = async () => {
-  const resp = await axios.get(API_PATH.trend, {});
-  return resp.data.results;
+  const response = await axios.get(API_PATH.trend, {});
+  return response.data.results;
 };
 
 export const fetchMovieById = async (id) => {
@@ -42,6 +42,5 @@ export const fetchMovieSearch = async (query, page = 1) => {
       page,
     },
   });
-
   return response.data;
 };
