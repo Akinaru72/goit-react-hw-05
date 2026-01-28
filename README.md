@@ -24,8 +24,10 @@
 
 # Movie Search 🎬
 
-Create an application with routing for searching movies by title.  
-![Image](https://github.com/user-attachments/assets/edf55070-b718-4552-8e8d-ef36186c0525)
+Create an application with routing for searching movies by title.
+
+Watch the demo video of the application.
+https://github.com/user-attachments/assets/edf55070-b718-4552-8e8d-ef36186c0525
 
 ---
 
