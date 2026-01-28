@@ -26,7 +26,8 @@
 
 Напишіть застосунок із маршрутизацією для пошуку фільмів за назвою.  
 Перегляньте демо-відео роботи застосунку.
-https://github.com/Akinaru72/goit-react-hw-05/issues/1#issue-3836504150
+
+https://github.com/user-attachments/assets/6e654c81-87f5-48c5-b451-1e38d6ac2bf6
 
 ---
 
